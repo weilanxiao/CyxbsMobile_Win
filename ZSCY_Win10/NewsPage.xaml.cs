@@ -30,6 +30,7 @@ namespace ZSCY_Win10
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
+    //test
     public sealed partial class NewsPage : Page
     {
         private int page = 0;
