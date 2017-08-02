@@ -243,6 +243,10 @@
     <Content Include="Assets\type.png" />
     <Content Include="Assets\type_03.png" />
     <Content Include="Assets\weeks_03.png" />
+    <Content Include="Assets\主页-1-邮子攻略.png" />
+    <Content Include="Assets\主页-2-重邮风采.png" />
+    <Content Include="Assets\主页-3-重邮数据.png" />
+    <Content Include="Assets\主页-4-军训特辑.png" />
     <Content Include="Assets\首页1.png" />
     <Content Include="Assets\首页2.png" />
     <Content Include="Assets\首页3.png" />
