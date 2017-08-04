@@ -9,7 +9,7 @@
     xmlns:converter="using:ZSCY_Win10.Util.Converter"
     mc:Ignorable="d">
 
-    <Page.Resources>
+    <!--<Page.Resources>
         <Style x:Key="FengCaiPivotStyle" TargetType="Pivot">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="IsTabStop" Value="False"/>
@@ -381,9 +381,9 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
-                <!--<Button x:Name="back_but" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource BackButtonStyle}" Click="back_but_Click">
+                --><!--<Button x:Name="back_but" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource BackButtonStyle}" Click="back_but_Click">
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE00E;" />
-                </Button>-->
+                </Button>--><!--
             </Grid>
             <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Text="重邮风采" FontSize="{Binding Source={StaticResource APPTheme},Path=Header_Size}" Foreground="{Binding Source={StaticResource APPTheme},Path=Foreground_Color_Brush}" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
         </Grid>
@@ -646,5 +646,298 @@
                 </TransitionCollection>
             </Popup.ChildTransitions>
         </Popup>
+    </Grid>-->
+
+    <Page.Resources>
+        <!--数据绑定模板-->
+        <!--<DataTemplate x:Key="navigation" x:DataType="local:MainPage">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding Name}" FontSize="26" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Line x:Name="line" Stroke="Blue" X1="0" Y1="0" X2="100" Y2="0" StrokeThickness="2" Visibility="Collapsed"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="Students" x:DataType="local:MainPage">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding Name}" FontSize="26" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="Original" x:DataType="local:MainPage">
+            <Grid>
+                <MediaElement Source="2" AreTransportControlsEnabled="True" Width="auto">
+                </MediaElement>
+                <Rectangle  Fill="Gray" Opacity="0.5" Height="50" Width="auto"/>
+            </Grid>
+            --><!--<StackPanel Orientation="Horizontal">
+                <Image Source="{Binding path}" Width="100"/>
+                <TextBlock Text="{Binding Name}" FontSize="26" Width="auto" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>--><!--
+        </DataTemplate>
+        <DataTemplate x:Key="Beauty" x:DataType="local:MainPage">
+            <StackPanel Orientation="Vertical">
+                <Image Source="{Binding path}" Width="auto" Height="300"/>
+                <TextBlock Text="{Binding Name}" FontSize="26" Width="auto" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="Teacher" x:DataType="local:MainPage">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Source="{Binding path}" Height="200"/>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="{Binding Name}" FontSize="18"/>
+                    <TextBlock Text="{Binding Name}" FontSize="20" TextWrapping="Wrap"/>
+                </StackPanel>
+                <Rectangle Grid.ColumnSpan="2" Fill="Gray" Opacity="0.7" Height="50" Width="300" VerticalAlignment="Top"/>
+                <TextBlock Text="123131564" VerticalAlignment="Top"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="Student" x:DataType="local:MainPage">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Source="{Binding path}" Height="200"/>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="{Binding Name}" FontSize="18"/>
+                    <TextBlock Text="{Binding Name}" FontSize="20" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>-->
+
+        <Style x:Key="FengCaiListViewStyle" TargetType="ListView">
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="TabNavigation" Value="Once"/>
+            <Setter Property="IsSwipeEnabled" Value="True"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
+            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
+            <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False"/>
+            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled"/>
+            <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True"/>
+            <Setter Property="ScrollViewer.ZoomMode" Value="Disabled"/>
+            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
+            <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True"/>
+            <Setter Property="ItemContainerTransitions">
+                <Setter.Value>
+                    <TransitionCollection>
+                        <AddDeleteThemeTransition/>
+                        <ContentThemeTransition/>
+                        <ReorderThemeTransition/>
+                        <EntranceThemeTransition IsStaggeringEnabled="False"/>
+                    </TransitionCollection>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListView">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                            <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                                <ItemsPresenter FooterTransitions="{TemplateBinding FooterTransitions}" FooterTemplate="{TemplateBinding FooterTemplate}" Footer="{TemplateBinding Footer}" HeaderTemplate="{TemplateBinding HeaderTemplate}" Header="{TemplateBinding Header}" HeaderTransitions="{TemplateBinding HeaderTransitions}"/>
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="FengCaiListViewItemStyle" TargetType="ListViewItem">
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{Binding Source={StaticResource APPTheme},Path=Gary_Color_Brush}"/>
+            <Setter Property="TabNavigation" Value="Local"/>
+            <Setter Property="IsHoldingEnabled" Value="True"/>
+            <Setter Property="Padding" Value="0,0,0,0"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <ListViewItemPresenter CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" ContentMargin="{TemplateBinding Padding}" CheckMode="Inline" ContentTransitions="{TemplateBinding ContentTransitions}" CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}" DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}" DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}" DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}" FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}" FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}" PressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}" PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}" PointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}" ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" SelectionCheckMarkVisualEnabled="True" SelectedForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}" SelectedPointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--容器模板-->
+        <Style x:Key="HorizontalItemContainerStyle" TargetType="ListViewItem">
+            <Setter Property="MinWidth" Value="{StaticResource SplitViewCompactPaneThemeLength}"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <ListViewItemPresenter ContentTransitions="{TemplateBinding ContentTransitions}"
+                        Control.IsTemplateFocusTarget="True"
+                        SelectionCheckMarkVisualEnabled="False"
+                        PointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}"
+                        PointerOverForeground="{ThemeResource ListViewItemForegroundPointerOver}"
+                        SelectedBackground="Transparent"
+                        SelectedForeground="{ThemeResource SystemControlForegroundAccentBrush}"
+                        SelectedPointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}"
+                        PressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}"
+                        SelectedPressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}"
+                        DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        ContentMargin="{TemplateBinding Padding}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--横向布局-->
+        <ItemsPanelTemplate x:Key="HorizontalItemsPanelTemplate">
+            <VirtualizingStackPanel Orientation="Horizontal"
+                VerticalAlignment="Top"
+                ScrollViewer.HorizontalScrollMode="Enabled"
+                ScrollViewer.VerticalScrollMode="Disabled"/>
+        </ItemsPanelTemplate>
+
+    </Page.Resources>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Padding="10,15,10,15" Background="{Binding Source={StaticResource APPTheme},Path=APP_Color_Brush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+            </Grid>
+            <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Text="重邮风采" FontSize="{Binding Source={StaticResource APPTheme},Path=Header_Size}" Foreground="{Binding Source={StaticResource APPTheme},Path=Foreground_Color_Brush}" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" x:Name="listViewer" Margin="10,0,10,0">
+                <ListView x:Name="listView" Grid.Column="1" ScrollViewer.HorizontalScrollMode="Enabled"
+                ItemsSource="{Binding Header}"
+                ItemsPanel="{StaticResource HorizontalItemsPanelTemplate}" ItemClick="listView_ItemClick" IsItemClickEnabled="True">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:Name="listData">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding header}" FontSize="{Binding Source={StaticResource APPTheme},Path=Header_Size}" Foreground="{Binding Source={StaticResource APPTheme},Path=APP_Color_Brush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Line x:Name="line" Stroke="Blue" X1="0" Y1="0" X2="100" Y2="0" StrokeThickness="2" Visibility="Visible"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <!--<Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="36"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="36"/>
+                </Grid.ColumnDefinitions>-->
+            </Grid>
+            <!--学生组织-->
+            <Grid x:Name="Students_" Grid.Row="1" Visibility="Visible" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="36"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <!--<ListView Grid.Row="0" x:Name="studentsList"
+                    ItemsSource="{x:Bind Books}"
+                    ItemContainerStyle="{StaticResource HorizontalItemContainerStyle}"
+                    ItemsPanel="{StaticResource HorizontalItemsPanelTemplate}" IsItemClickEnabled="True" ItemClick="studentsList_ItemClick"
+                    ItemTemplate="{StaticResource Students}"
+                    >
+                </ListView>
+                <Image Grid.Row="1" x:Name="studentImage" Source="ms-appx:///Assets.123.png"/>-->
+                <ListView x:Name="zuzhi_listview" Grid.Row="0" Style="{StaticResource FengCaiListViewStyle}" ItemContainerStyle="{StaticResource FengCaiListViewItemStyle}"
+                          ItemsPanel="{StaticResource HorizontalItemsPanelTemplate}"
+                          ItemsSource="{Binding ZuZhi}" HorizontalAlignment="Center" SelectionChanged="zuzhi_listview_SelectionChanged">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding zuzhi_name}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{Binding Source={StaticResource APPTheme},Path=Header_Size}" Foreground="{Binding Source={StaticResource APPTheme},Path=APP_Color_Brush}"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <TextBlock Text="{Binding zuzhi}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Image />
+            </Grid>
+            <!--原创重邮-->
+            <Grid x:Name="Original_" Grid.Row="1" Visibility="Collapsed" Margin="5">
+                <ListView x:Name="yc_listview" 
+                          ItemsSource="{Binding YuanChuang}" HorizontalAlignment="Center" SelectionChanged="zuzhi_listview_SelectionChanged">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <MediaElement Source="2" AreTransportControlsEnabled="True" Width="auto">
+                                </MediaElement>
+                                <Rectangle Fill="Gray" Opacity="0.7" Height="50" Width="300" VerticalAlignment="Top"/>
+                            </Grid>
+                            <!--<StackPanel>
+                                <TextBlock Text="{Binding zuzhi_name}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                            </StackPanel>-->
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            <!--美在重邮-->
+            <Grid x:Name="Beauty_" Grid.Row="1" Visibility="Collapsed" Margin="5">
+                <!--<ListView
+                    ItemsSource="{x:Bind Books}"
+                    ItemTemplate="{StaticResource Beauty}"
+                    >
+                </ListView>-->
+            </Grid>
+            <!--优秀教师-->
+            <Grid x:Name="Teacher_" Grid.Row="1" Visibility="Collapsed" Margin="5" >
+                <ListView x:Name="teacherList"                   
+                    ItemsSource="{Binding Teacher}"
+                    IsItemClickEnabled="True" ItemClick="teacherList_ItemClick">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="{Binding photo_thumbnail_src}" Stretch="UniformToFill"></Image>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="{Binding name}" FontSize="18"/>
+                                    <TextBlock Text="{Binding college}" FontSize="20" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            <!--优秀学生-->
+            <Grid x:Name="Student_" Grid.Row="1" Visibility="Collapsed" Margin="5">
+                <ListView x:Name="studentList"            
+                    ItemsSource="{Binding XueZi}"
+                    IsItemClickEnabled="True" ItemClick="studentList_ItemClick">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="{Binding photo_thumbnail_src}" Height="200"/>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="{Binding name}" FontSize="18"/>
+                                    <TextBlock Text="{Binding description}" FontSize="20" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Grid>
     </Grid>
 </Page>

@@ -26,6 +26,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using ZSCY_Win10;
 using Windows.Phone.UI.Input;
 using Windows.UI.ViewManagement;
+using System.Diagnostics;
 
 // “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=234238 上有介绍
 
@@ -82,7 +83,7 @@ namespace ZSCY.Pages
                     PivotItem1_Add_Content(1);
                 });
                 await Task.Delay(100);
-                zuzhi_listview.SelectedIndex = pivot.SelectedIndex = 0;
+                //zuzhi_listview.SelectedIndex = pivot.SelectedIndex = 0;
             }
         }
 
@@ -249,35 +250,35 @@ namespace ZSCY.Pages
 
         private void PivotItem1_Add_Content(int p)
         {
-            zuzhi_content.Children.Clear();
-            if (p == 1)
-            {
-                for (int i = 0; i < viewmodel.Zuzhi_Intro[0].zuzhi.Count; i++)
-                {
-                    if (viewmodel.Zuzhi_Intro[0].zuzhi[i].Contains("【"))
-                    {
-                        zuzhi_content.Children.Add(New_TextBlock(1, viewmodel.Zuzhi_Intro[0].zuzhi[i]));
-                    }
-                    else
-                    {
-                        zuzhi_content.Children.Add(New_TextBlock(2, viewmodel.Zuzhi_Intro[0].zuzhi[i]));
-                    }
-                }
-            }
-            else if (p == 2)
-            {
-                for (int i = 0; i < viewmodel.Zuzhi_Intro[zuzhi_listview.SelectedIndex].zuzhi.Count; i++)
-                {
-                    if (viewmodel.Zuzhi_Intro[zuzhi_listview.SelectedIndex].zuzhi[i].Contains("【"))
-                    {
-                        zuzhi_content.Children.Add(New_TextBlock(1, viewmodel.Zuzhi_Intro[zuzhi_listview.SelectedIndex].zuzhi[i]));
-                    }
-                    else
-                    {
-                        zuzhi_content.Children.Add(New_TextBlock(2, viewmodel.Zuzhi_Intro[zuzhi_listview.SelectedIndex].zuzhi[i]));
-                    }
-                }
-            }
+            //zuzhi_content.Children.Clear();
+            //if (p == 1)
+            //{
+            //    for (int i = 0; i < viewmodel.Zuzhi_Intro[0].zuzhi.Count; i++)
+            //    {
+            //        if (viewmodel.Zuzhi_Intro[0].zuzhi[i].Contains("【"))
+            //        {
+            //            zuzhi_content.Children.Add(New_TextBlock(1, viewmodel.Zuzhi_Intro[0].zuzhi[i]));
+            //        }
+            //        else
+            //        {
+            //            zuzhi_content.Children.Add(New_TextBlock(2, viewmodel.Zuzhi_Intro[0].zuzhi[i]));
+            //        }
+            //    }
+            //}
+            //else if (p == 2)
+            //{
+            //    for (int i = 0; i < viewmodel.Zuzhi_Intro[zuzhi_listview.SelectedIndex].zuzhi.Count; i++)
+            //    {
+            //        if (viewmodel.Zuzhi_Intro[zuzhi_listview.SelectedIndex].zuzhi[i].Contains("【"))
+            //        {
+            //            zuzhi_content.Children.Add(New_TextBlock(1, viewmodel.Zuzhi_Intro[zuzhi_listview.SelectedIndex].zuzhi[i]));
+            //        }
+            //        else
+            //        {
+            //            zuzhi_content.Children.Add(New_TextBlock(2, viewmodel.Zuzhi_Intro[zuzhi_listview.SelectedIndex].zuzhi[i]));
+            //        }
+            //    }
+            //}
         }
 
         private TextBlock New_TextBlock(int p, string content)
@@ -310,37 +311,37 @@ namespace ZSCY.Pages
 
         private void pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            try
-            {
-                if (pivot.SelectedIndex < 0)
-                {
-                    pivot.SelectedIndex = pivot_index = 0;
-                }
-                (((pivot.Items[pivot_index] as PivotItem).Header as Grid).Children[0] as TextBlock).Foreground = App.APPTheme.Content_Header_Color_Brush;
-                (((pivot.Items[pivot_index] as PivotItem).Header as Grid).Children[1] as Line).Visibility = Visibility.Collapsed;
-                pivot_index = pivot.SelectedIndex;
-                (((pivot.Items[pivot_index] as PivotItem).Header as Grid).Children[0] as TextBlock).Foreground = App.APPTheme.APP_Color_Brush;
-                (((pivot.Items[pivot_index] as PivotItem).Header as Grid).Children[1] as Line).Visibility = Visibility.Visible;
-            }
-            catch (Exception)
-            {
-                return;
-            }
+            //try
+            //{
+            //    if (pivot.SelectedIndex < 0)
+            //    {
+            //        pivot.SelectedIndex = pivot_index = 0;
+            //    }
+            //    (((pivot.Items[pivot_index] as PivotItem).Header as Grid).Children[0] as TextBlock).Foreground = App.APPTheme.Content_Header_Color_Brush;
+            //    (((pivot.Items[pivot_index] as PivotItem).Header as Grid).Children[1] as Line).Visibility = Visibility.Collapsed;
+            //    pivot_index = pivot.SelectedIndex;
+            //    (((pivot.Items[pivot_index] as PivotItem).Header as Grid).Children[0] as TextBlock).Foreground = App.APPTheme.APP_Color_Brush;
+            //    (((pivot.Items[pivot_index] as PivotItem).Header as Grid).Children[1] as Line).Visibility = Visibility.Visible;
+            //}
+            //catch (Exception)
+            //{
+            //    return;
+            //}
         }
 
         private void zuzhi_listview_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            pivotitem1_ver_offest[zuzhi_listview_index] = zuzhi_sc.VerticalOffset;
-            PivotItem1_Add_Content(2);
-            if (pivotitem1_ver_offest[zuzhi_listview.SelectedIndex] != 0.0)
-            {
-                zuzhi_sc.ChangeView(null, pivotitem1_ver_offest[zuzhi_listview.SelectedIndex], null, true);
-            }
-            else
-            {
-                zuzhi_sc.ChangeView(null, 0.0, null, true);
-            }
-            zuzhi_listview_index = zuzhi_listview.SelectedIndex;
+            //pivotitem1_ver_offest[zuzhi_listview_index] = zuzhi_sc.VerticalOffset;
+            //PivotItem1_Add_Content(2);
+            //if (pivotitem1_ver_offest[zuzhi_listview.SelectedIndex] != 0.0)
+            //{
+            //    zuzhi_sc.ChangeView(null, pivotitem1_ver_offest[zuzhi_listview.SelectedIndex], null, true);
+            //}
+            //else
+            //{
+            //    zuzhi_sc.ChangeView(null, 0.0, null, true);
+            //}
+            //zuzhi_listview_index = zuzhi_listview.SelectedIndex;
         }
 
         private async void yc_listview_ItemClick(object sender, ItemClickEventArgs e)
@@ -362,30 +363,30 @@ namespace ZSCY.Pages
 
         private void GridView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            if (e.ClickedItem is Models.xuezi)
-            {
-                detail_img.ImageSource = new BitmapImage(new Uri((e.ClickedItem as Models.xuezi).photo_thumbnail_src, UriKind.Absolute));
-                detail_title.Text = (e.ClickedItem as Models.xuezi).name;
-                detail_content.Text = (e.ClickedItem as Models.xuezi).introduction;
-            }
-            else if (e.ClickedItem is Models.teacher)
-            {
-                detail_img.ImageSource = new BitmapImage(new Uri((e.ClickedItem as Models.teacher).photo_thumbnail_src, UriKind.Absolute));
-                detail_title.Text = (e.ClickedItem as Models.teacher).name;
-                detail_content.Text = (e.ClickedItem as Models.teacher).college;
-            }
-            detail_sc.ChangeView(null, 0, null, true);
-            black_background.Visibility = Visibility.Visible;
-            black_background_sb.Begin();
-            detail_popup.IsOpen = true;
+            //if (e.ClickedItem is Models.xuezi)
+            //{
+            //    detail_img.ImageSource = new BitmapImage(new Uri((e.ClickedItem as Models.xuezi).photo_thumbnail_src, UriKind.Absolute));
+            //    detail_title.Text = (e.ClickedItem as Models.xuezi).name;
+            //    detail_content.Text = (e.ClickedItem as Models.xuezi).introduction;
+            //}
+            //else if (e.ClickedItem is Models.teacher)
+            //{
+            //    detail_img.ImageSource = new BitmapImage(new Uri((e.ClickedItem as Models.teacher).photo_thumbnail_src, UriKind.Absolute));
+            //    detail_title.Text = (e.ClickedItem as Models.teacher).name;
+            //    detail_content.Text = (e.ClickedItem as Models.teacher).college;
+            //}
+            //detail_sc.ChangeView(null, 0, null, true);
+            //black_background.Visibility = Visibility.Visible;
+            //black_background_sb.Begin();
+            //detail_popup.IsOpen = true;
         }
 
         private void detail_popup_Closed(object sender, object e)
         {
-            detail_img.ImageSource = null;
-            detail_title.Text = "";
-            detail_content.Text = "";
-            black_background.Visibility = Visibility.Collapsed;
+            //detail_img.ImageSource = null;
+            //detail_title.Text = "";
+            //detail_content.Text = "";
+            //black_background.Visibility = Visibility.Collapsed;
         }
 
         private void back_but_Click(object sender, RoutedEventArgs e)
@@ -437,6 +438,82 @@ namespace ZSCY.Pages
                     e.Handled = true;
                 }//Frame在其他页面并且事件未处理
             }
+        }
+
+        private void listView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Debug.WriteLine("你点击了！");
+            var x = e.ClickedItem as Models.fengcaiheaders;
+            if (x.header == "学生组织")
+            {
+                ////StackPanel sp = (StackPanel)VisualTreeHelper.GetChild(navigation.LoadContent(), 0);
+                //DataTemplate dt = (DataTemplate)VisualTreeHelper.GetChild(, 0);
+                //StackPanel sp = (StackPanel)VisualTreeHelper.GetChild(dt, 0);
+                //Line li = (Line)VisualTreeHelper.GetChild(sp, 1);
+                //li.Visibility = Visibility.Visible;
+                Students_.Visibility = Visibility.Visible;
+                Original_.Visibility = Visibility.Collapsed;
+                Beauty_.Visibility = Visibility.Collapsed;
+                Teacher_.Visibility = Visibility.Collapsed;
+                Student_.Visibility = Visibility.Collapsed;
+
+                //(a.Children[0] as Rectangle).Visibility = Visibility.Collapsed;
+                //var a=((listView.Items[1] as ListViewItem).Content) as StackPanel;
+                //(a.Children[1] as Rectangle).Visibility = Visibility.Visible;
+                var a = sender as ListView;
+                var c = listView.Items[1];
+                var b = a.ContainerFromIndex(1) as Rectangle;
+                //b.Visibility = Visibility.Collapsed;
+                Debug.WriteLine(c);
+                //((listView.Items[1] as StackPanel).Children[1] as Rectangle).Visibility = Visibility.Visible;
+
+            }
+            else if (x.header == "原创重邮")
+            {
+                Students_.Visibility = Visibility.Collapsed;
+                Original_.Visibility = Visibility.Visible;
+                Beauty_.Visibility = Visibility.Collapsed;
+                Teacher_.Visibility = Visibility.Collapsed;
+                Student_.Visibility = Visibility.Collapsed;
+            }
+            else if (x.header == "美在重邮")
+            {
+                Students_.Visibility = Visibility.Collapsed;
+                Original_.Visibility = Visibility.Collapsed;
+                Beauty_.Visibility = Visibility.Visible;
+                Teacher_.Visibility = Visibility.Collapsed;
+                Student_.Visibility = Visibility.Collapsed;
+            }
+            else if (x.header == "教师代表")
+            {
+                Students_.Visibility = Visibility.Collapsed;
+                Original_.Visibility = Visibility.Collapsed;
+                Beauty_.Visibility = Visibility.Collapsed;
+                Teacher_.Visibility = Visibility.Visible;
+                Student_.Visibility = Visibility.Collapsed;
+            }
+            else if (x.header == "学生代表")
+            {
+                Students_.Visibility = Visibility.Collapsed;
+                Original_.Visibility = Visibility.Collapsed;
+                Beauty_.Visibility = Visibility.Collapsed;
+                Teacher_.Visibility = Visibility.Collapsed;
+                Student_.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void studentsList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            //studentImage.Source = new BitmapImage(new Uri(@"ms-appx:///Assets.123.png"));
+        }
+        private void teacherList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+
+        }
+
+        private void studentList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+
         }
     }
 }
