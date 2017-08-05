@@ -841,7 +841,7 @@
                 </Grid.ColumnDefinitions>-->
             </Grid>
             <!--学生组织-->
-            <Grid x:Name="Students_" Grid.Row="1" Visibility="Visible" Margin="5">
+            <Grid x:Name="Students_" Grid.Row="1" Visibility="Visible" Margin="5,0,5,2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="36"/>
                     <RowDefinition Height="*"/>
@@ -855,21 +855,25 @@
                 </ListView>
                 <Image Grid.Row="1" x:Name="studentImage" Source="ms-appx:///Assets.123.png"/>-->
                 <ListView x:Name="zuzhi_listview" Grid.Row="0" Style="{StaticResource FengCaiListViewStyle}" ItemContainerStyle="{StaticResource FengCaiListViewItemStyle}"
-                          ItemsPanel="{StaticResource HorizontalItemsPanelTemplate}"
+                          ItemsPanel="{StaticResource HorizontalItemsPanelTemplate}" IsItemClickEnabled="True" ItemClick="zuzhi_listview_ItemClick"
                           ItemsSource="{Binding ZuZhi}" HorizontalAlignment="Center" SelectionChanged="zuzhi_listview_SelectionChanged">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock Text="{Binding zuzhi_name}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{Binding Source={StaticResource APPTheme},Path=Header_Size}" Foreground="{Binding Source={StaticResource APPTheme},Path=APP_Color_Brush}"></TextBlock>
+                                <TextBlock Text="{Binding zuzhi_name}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Foreground="{Binding Source={StaticResource APPTheme},Path=APP_Color_Brush}"></TextBlock>
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <TextBlock Text="{Binding zuzhi}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <Image />
+                <ScrollViewer Grid.Row="1" x:Name="zuzhi_sc" Grid.Column="1" VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Enabled" HorizontalScrollBarVisibility="Disabled">
+                    <RelativePanel >
+                        <TextBlock x:Name="zuzhiIntro" Text="{Binding zuzhi}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Image />
+                    </RelativePanel>
+                </ScrollViewer>
             </Grid>
             <!--原创重邮-->
-            <Grid x:Name="Original_" Grid.Row="1" Visibility="Collapsed" Margin="5">
+            <Grid x:Name="Original_" Grid.Row="1" Visibility="Collapsed" Margin="5,0,5,2">
                 <ListView x:Name="yc_listview" 
                           ItemsSource="{Binding YuanChuang}" HorizontalAlignment="Center" SelectionChanged="zuzhi_listview_SelectionChanged">
                     <ListView.ItemTemplate>
@@ -887,7 +891,7 @@
                 </ListView>
             </Grid>
             <!--美在重邮-->
-            <Grid x:Name="Beauty_" Grid.Row="1" Visibility="Collapsed" Margin="5">
+            <Grid x:Name="Beauty_" Grid.Row="1" Visibility="Collapsed" Margin="5,0,5,2">
                 <!--<ListView
                     ItemsSource="{x:Bind Books}"
                     ItemTemplate="{StaticResource Beauty}"
@@ -895,7 +899,7 @@
                 </ListView>-->
             </Grid>
             <!--优秀教师-->
-            <Grid x:Name="Teacher_" Grid.Row="1" Visibility="Collapsed" Margin="5" >
+            <Grid x:Name="Teacher_" Grid.Row="1" Visibility="Collapsed" Margin="5,0,5,2">
                 <ListView x:Name="teacherList"                   
                     ItemsSource="{Binding Teacher}"
                     IsItemClickEnabled="True" ItemClick="teacherList_ItemClick">
@@ -917,7 +921,7 @@
                 </ListView>
             </Grid>
             <!--优秀学生-->
-            <Grid x:Name="Student_" Grid.Row="1" Visibility="Collapsed" Margin="5">
+            <Grid x:Name="Student_" Grid.Row="1" Visibility="Collapsed" Margin="5,0,5,2">
                 <ListView x:Name="studentList"            
                     ItemsSource="{Binding XueZi}"
                     IsItemClickEnabled="True" ItemClick="studentList_ItemClick">

@@ -27,6 +27,7 @@ using ZSCY_Win10;
 using Windows.Phone.UI.Input;
 using Windows.UI.ViewManagement;
 using System.Diagnostics;
+using System.Text;
 
 // “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=234238 上有介绍
 
@@ -42,6 +43,8 @@ namespace ZSCY.Pages
         private double[] pivotitem1_ver_offest;
         private ZSCY_Win10.ViewModels.FengCaiViewModel viewmodel;
         public static FengCaiPage fengcaipage;
+
+        List<string> zuzhilist = new List<string>();
 
         public FengCaiPage()
         {
@@ -135,6 +138,7 @@ namespace ZSCY.Pages
             json_object = (JObject)JsonConvert.DeserializeObject(json);
             JArray zuzhi_intros = (JArray)json_object["zuzhi_intro"];
             ObservableCollection<Models.zuzhi_intro> intro_lists = new ObservableCollection<Models.zuzhi_intro>();
+            StringBuilder sb = new StringBuilder("");
             for (int i = 0; i < zuzhi_intros.Count; i++)
             {
                 Models.zuzhi_intro item = new Models.zuzhi_intro();
@@ -142,11 +146,15 @@ namespace ZSCY.Pages
                 JArray zuzhi_item = (JArray)zuzhi_intros[i]["zuzhi"];
                 for (int j = 0; j < zuzhi_item.Count; j++)
                 {
-                    item.zuzhi.Add(zuzhi_item[j]["duanluo"].ToString());
+                    //item.zuzhi.Add(zuzhi_item[j]["duanluo"].ToString());
+                    sb.Append(zuzhi_item[j]["duanluo"].ToString());
+                    sb.Append("\n");
                 }
-                intro_lists.Add(item);
+                //intro_lists.Add(item);
+                zuzhilist.Add(sb.ToString());
+                sb.Clear();
             }
-            viewmodel.Zuzhi_Intro = intro_lists;
+            //viewmodel.Zuzhi_Intro = intro_lists;
             #endregion
 
             #region 得到原创重邮内容
@@ -514,6 +522,17 @@ namespace ZSCY.Pages
         private void studentList_ItemClick(object sender, ItemClickEventArgs e)
         {
 
+        }
+
+        private void zuzhi_listview_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            int index = zuzhi_listview.SelectedIndex;
+            switch (index)
+            {
+                case 0:
+                    zuzhiIntro.Text = zuzhilist[0];
+                    break;
+            }
         }
     }
 }
