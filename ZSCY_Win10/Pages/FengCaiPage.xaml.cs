@@ -710,7 +710,7 @@ namespace ZSCY.Pages
             teacherList.IsItemClickEnabled = false;
             //ShowContent.Visibility = Visibility.Visible;
             var x = e.ClickedItem as Models.teacher;
-            Pic.ImageSource = new BitmapSource(new Uri(x.photo_src));
+            Pic.ImageSource = new BitmapImage(new Uri(x.photo_src));
             _Name.Text = x.name;
             Content.Text = x.college;
             ToS = "T";
