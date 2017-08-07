@@ -753,7 +753,7 @@
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
             <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="{Binding Source={StaticResource APPTheme},Path=Gary_Color_Brush}"/>
+            <Setter Property="Foreground" Value="{Binding Source={StaticResource APPTheme},Path=APP_Color_Brush}"/>
             <Setter Property="TabNavigation" Value="Local"/>
             <Setter Property="IsHoldingEnabled" Value="True"/>
             <Setter Property="Padding" Value="0,0,0,0"></Setter>
@@ -762,7 +762,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListViewItem">
-                        <ListViewItemPresenter CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" ContentMargin="{TemplateBinding Padding}" CheckMode="Inline" ContentTransitions="{TemplateBinding ContentTransitions}" CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}" DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}" DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}" DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}" FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}" FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}" PressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}" PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}" PointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}" ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" SelectionCheckMarkVisualEnabled="True" SelectedForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}" SelectedPointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <ListViewItemPresenter CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" ContentMargin="{TemplateBinding Padding}" CheckMode="Inline" ContentTransitions="{TemplateBinding ContentTransitions}" CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}" DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}" DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}" DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}" FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}" FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}" PressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}" PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}" PointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}" ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" SelectionCheckMarkVisualEnabled="True" SelectedForeground="Gray" SelectedPointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -818,19 +818,21 @@
         </Grid>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" x:Name="listViewer" Margin="10,0,10,0">
-                <ListView x:Name="listView" Grid.Column="1" ScrollViewer.HorizontalScrollMode="Enabled"
-                ItemsSource="{Binding Header}"
-                ItemsPanel="{StaticResource HorizontalItemsPanelTemplate}" ItemClick="listView_ItemClick" IsItemClickEnabled="True">
+                <ListView x:Name="listView" Grid.Column="1" ScrollViewer.HorizontalScrollMode="Enabled" HorizontalAlignment="Center"
+                          Style="{StaticResource FengCaiListViewStyle}"
+                          ItemContainerStyle="{StaticResource HorizontalItemContainerStyle}"
+                          ItemsSource="{Binding Header}" SelectionChanged="listView_SelectionChanged" 
+                          ItemsPanel="{StaticResource HorizontalItemsPanelTemplate}">
                     <ListView.ItemTemplate>
                         <DataTemplate x:Name="listData">
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="{Binding header}" FontSize="{Binding Source={StaticResource APPTheme},Path=Header_Size}" Foreground="{Binding Source={StaticResource APPTheme},Path=APP_Color_Brush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                <Line x:Name="line" Stroke="Blue" X1="0" Y1="0" X2="100" Y2="0" StrokeThickness="2" Visibility="Visible"/>
-                            </StackPanel>
+                            <Grid Height="50" Width="75" BorderBrush="{Binding Source={StaticResource APPTheme},Path=APP_Color_Brush}">
+                                <TextBlock x:Name="namelist" Text="{Binding header}" FontSize="{Binding Source={StaticResource APPTheme},Path=Header_Size}" Foreground="{Binding Source={StaticResource APPTheme},Path=Content_Header_Color_Brush}"  HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                <Line x:Name="line" Visibility="Collapsed" X1="0" X2="75" Y1="0" Y2="0" Stroke="{Binding Source={StaticResource APPTheme},Path=APP_Color_Brush}" StrokeThickness="3" Stretch="Fill" VerticalAlignment="Bottom"></Line>
+                            </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
@@ -854,13 +856,14 @@
                     >
                 </ListView>
                 <Image Grid.Row="1" x:Name="studentImage" Source="ms-appx:///Assets.123.png"/>-->
-                <ListView x:Name="zuzhi_listview" Grid.Row="0" Style="{StaticResource FengCaiListViewStyle}" ItemContainerStyle="{StaticResource FengCaiListViewItemStyle}"
+                <ListView x:Name="zuzhi_listview" Grid.Row="0" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollMode="Enabled"
+                          ItemContainerStyle="{StaticResource HorizontalItemContainerStyle}"
                           ItemsPanel="{StaticResource HorizontalItemsPanelTemplate}" IsItemClickEnabled="True" ItemClick="zuzhi_listview_ItemClick"
                           ItemsSource="{Binding ZuZhi}" HorizontalAlignment="Center" SelectionChanged="zuzhi_listview_SelectionChanged">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <TextBlock Text="{Binding zuzhi_name}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Foreground="{Binding Source={StaticResource APPTheme},Path=APP_Color_Brush}"></TextBlock>
+                                <TextBlock Text="{Binding zuzhi_name}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Margin="20,0,20,0"></TextBlock>
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -874,8 +877,8 @@
             </Grid>
             <!--原创重邮-->
             <Grid x:Name="Original_" Grid.Row="1" Visibility="Collapsed" Margin="5,0,5,2">
-                <ListView x:Name="yc_listview" 
-                          ItemsSource="{Binding YuanChuang}" HorizontalAlignment="Center" SelectionChanged="zuzhi_listview_SelectionChanged">
+                <ListView x:Name="yc_listview" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                          ItemsSource="{Binding YuanChuang}" HorizontalAlignment="Center">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid>
@@ -892,15 +895,35 @@
             </Grid>
             <!--美在重邮-->
             <Grid x:Name="Beauty_" Grid.Row="1" Visibility="Collapsed" Margin="5,0,5,2">
-                <!--<ListView
-                    ItemsSource="{x:Bind Books}"
-                    ItemTemplate="{StaticResource Beauty}"
+                <ListView x:Name="zuimeilist" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                          IsItemClickEnabled="True" ItemClick="zuimeilist_ItemClick"
                     >
-                </ListView>-->
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <StackPanel>
+                                    <Image Width="678" Height="358"/>
+                                    <TextBlock FontSize="18" Foreground="{Binding Source={StaticResource APPTheme},Path=Content_Header_Color_Brush}"/>
+                                    <TextBlock FontSize="{Binding Source={StaticResource APPTheme},Path=Second_Content_Size}" Foreground="{Binding Source={StaticResource APPTheme},Path=Gary_Color_Brush}" TextWrapping="Wrap"/>
+                                </StackPanel>
+                                <Rectangle Fill="Black" Opacity="0.5" VerticalAlignment="Bottom"/>
+                                <TextBlock Text="1/x" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,2"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <ScrollViewer x:Name="fangdasv" HorizontalScrollMode="Disabled" Visibility="Collapsed">
+                    <Image x:Name="fangdaImage" Width="600"
+                       PointerPressed="fangdaImage_PointerPressed" 
+                       PointerExited="fangdaImage_PointerExited" 
+                       PointerReleased="fangdaImage_PointerReleased"
+                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                       Stretch="UniformToFill" />
+                </ScrollViewer>
             </Grid>
             <!--优秀教师-->
             <Grid x:Name="Teacher_" Grid.Row="1" Visibility="Collapsed" Margin="5,0,5,2">
-                <ListView x:Name="teacherList"                   
+                <ListView x:Name="teacherList" ScrollViewer.VerticalScrollBarVisibility="Hidden"         
                     ItemsSource="{Binding Teacher}"
                     IsItemClickEnabled="True" ItemClick="teacherList_ItemClick">
                     <ListView.ItemTemplate>
@@ -910,11 +933,19 @@
                                     <ColumnDefinition Width="150"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Image Source="{Binding photo_thumbnail_src}" Stretch="UniformToFill"></Image>
-                                <StackPanel Grid.Column="1">
-                                    <TextBlock Text="{Binding name}" FontSize="18"/>
-                                    <TextBlock Text="{Binding college}" FontSize="20" TextWrapping="Wrap"/>
-                                </StackPanel>
+                                <Ellipse Width="120" Height="120">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="{Binding photo_thumbnail_src}" ></ImageBrush>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <Grid Grid.Column="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="{Binding name}" FontSize="18" Foreground="{Binding Source={StaticResource APPTheme},Path=Content_Header_Color_Brush}"/>
+                                    <TextBlock Grid.Row="1" Text="{Binding college}" FontSize="{Binding Source={StaticResource APPTheme},Path=Second_Content_Size}" Foreground="{Binding Source={StaticResource APPTheme},Path=Gary_Color_Brush}" TextWrapping="Wrap"/>
+                                </Grid>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -922,7 +953,7 @@
             </Grid>
             <!--优秀学生-->
             <Grid x:Name="Student_" Grid.Row="1" Visibility="Collapsed" Margin="5,0,5,2">
-                <ListView x:Name="studentList"            
+                <ListView x:Name="studentList" ScrollViewer.VerticalScrollBarVisibility="Hidden"          
                     ItemsSource="{Binding XueZi}"
                     IsItemClickEnabled="True" ItemClick="studentList_ItemClick">
                     <ListView.ItemTemplate>
@@ -934,13 +965,39 @@
                                 </Grid.ColumnDefinitions>
                                 <Image Grid.Column="0" Source="{Binding photo_thumbnail_src}" Height="200"/>
                                 <StackPanel Grid.Column="1">
-                                    <TextBlock Text="{Binding name}" FontSize="18"/>
-                                    <TextBlock Text="{Binding description}" FontSize="20" TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding name}" FontSize="18" Foreground="{Binding Source={StaticResource APPTheme},Path=Content_Header_Color_Brush}"/>
+                                    <TextBlock Text="{Binding description}" FontSize="{Binding Source={StaticResource APPTheme},Path=Second_Content_Size}" Foreground="{Binding Source={StaticResource APPTheme},Path=Gary_Color_Brush}" TextWrapping="Wrap"/>
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+            </Grid>
+            <Grid x:Name="xuhua" Grid.Row="1" Visibility="Collapsed" Margin="5,0,5,2">
+                <Grid x:Name="GlassHost" Width="1000" Height="auto" HorizontalAlignment="Center"></Grid>
+                <Rectangle x:Name="waibu" Fill="Blue" Width="1000" HorizontalAlignment="Center" Stretch="Fill" 
+                           PointerPressed="waibu_PointerPressed" Opacity="0"
+                           PointerReleased="waibu_PointerReleased" />
+                <ScrollViewer VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Enabled" HorizontalScrollBarVisibility="Disabled" 
+                              Width="300" Height="500" Background="White"
+                              BorderBrush="Red" BorderThickness="1">
+                    <Grid x:Name="ShowContent" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                          BorderThickness="0"
+                          BorderBrush="{Binding Source={StaticResource APPTheme},Path=Gary_Color_Brush}" Margin="10,0,10,2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Ellipse Grid.Row="0" Width="210" Height="210" HorizontalAlignment="Center">
+                            <Ellipse.Fill>
+                                <ImageBrush x:Name="Pic"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock x:Name="_Name" Grid.Row="1" FontSize="18" Foreground="{Binding Source={StaticResource APPTheme},Path=Content_Header_Color_Brush}" HorizontalAlignment="Center"/>
+                        <TextBlock x:Name="Content" Grid.Row="2" FontSize="{Binding Source={StaticResource APPTheme},Path=Second_Content_Size}" Foreground="{Binding Source={StaticResource APPTheme},Path=Gary_Color_Brush}" TextWrapping="Wrap"/>
+                    </Grid>
+                </ScrollViewer>
             </Grid>
         </Grid>
     </Grid>

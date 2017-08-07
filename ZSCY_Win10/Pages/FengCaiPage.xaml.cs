@@ -28,6 +28,10 @@ using Windows.Phone.UI.Input;
 using Windows.UI.ViewManagement;
 using System.Diagnostics;
 using System.Text;
+using Windows.UI.Composition;
+using Windows.UI.Xaml.Hosting;
+using Microsoft.Graphics.Canvas.Effects;
+using Windows.UI;
 
 // “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=234238 上有介绍
 
@@ -464,16 +468,7 @@ namespace ZSCY.Pages
                 Beauty_.Visibility = Visibility.Collapsed;
                 Teacher_.Visibility = Visibility.Collapsed;
                 Student_.Visibility = Visibility.Collapsed;
-
-                //(a.Children[0] as Rectangle).Visibility = Visibility.Collapsed;
-                //var a=((listView.Items[1] as ListViewItem).Content) as StackPanel;
-                //(a.Children[1] as Rectangle).Visibility = Visibility.Visible;
-                var a = sender as ListView;
-                var c = listView.Items[1];
-                var b = a.ContainerFromIndex(1) as Rectangle;
-                //b.Visibility = Visibility.Collapsed;
-                Debug.WriteLine(c);
-                //((listView.Items[1] as StackPanel).Children[1] as Rectangle).Visibility = Visibility.Visible;
+                xuhua.Visibility = Visibility.Collapsed;
 
             }
             else if (x.header == "原创重邮")
@@ -483,6 +478,7 @@ namespace ZSCY.Pages
                 Beauty_.Visibility = Visibility.Collapsed;
                 Teacher_.Visibility = Visibility.Collapsed;
                 Student_.Visibility = Visibility.Collapsed;
+                xuhua.Visibility = Visibility.Collapsed;
             }
             else if (x.header == "美在重邮")
             {
@@ -491,6 +487,7 @@ namespace ZSCY.Pages
                 Beauty_.Visibility = Visibility.Visible;
                 Teacher_.Visibility = Visibility.Collapsed;
                 Student_.Visibility = Visibility.Collapsed;
+                xuhua.Visibility = Visibility.Collapsed;
             }
             else if (x.header == "教师代表")
             {
@@ -499,6 +496,8 @@ namespace ZSCY.Pages
                 Beauty_.Visibility = Visibility.Collapsed;
                 Teacher_.Visibility = Visibility.Visible;
                 Student_.Visibility = Visibility.Collapsed;
+                xuhua.Visibility = Visibility.Collapsed;
+                teacherList.IsItemClickEnabled = true;
             }
             else if (x.header == "学生代表")
             {
@@ -507,21 +506,85 @@ namespace ZSCY.Pages
                 Beauty_.Visibility = Visibility.Collapsed;
                 Teacher_.Visibility = Visibility.Collapsed;
                 Student_.Visibility = Visibility.Visible;
+                xuhua.Visibility = Visibility.Collapsed;
+                studentList.IsItemClickEnabled = true;
+            }
+        }       
+
+        Rectangle rect_old;
+        Rectangle rect_new;
+        private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int index = 0;
+            for (int i = 0; i < listView.Items.Count; i++)
+            {
+                if (listView.ContainerFromIndex(i) != null)
+                {
+                    var grid = (listView.ContainerFromIndex(i) as ListViewItem).ContentTemplateRoot as Grid;
+                    var line = grid.FindName("line") as Line;                    
+
+                    if (listView.SelectedIndex == i) // 当前选中项
+                    {
+                        index = i;
+                        //(grid.FindName("namelist") as TextBlock).Foreground= App.APPTheme.APP_Color_Brush;
+                        //rect_old = rect_new;
+                        //rect_new = rect;                       
+                    }
+                    line.Visibility = listView.SelectedIndex == i ? Visibility.Visible : Visibility.Collapsed;
+                }
+            }
+            Debug.WriteLine("你点击了！");
+            switch (index)
+            {
+                case 0:
+                    Students_.Visibility = Visibility.Visible;
+                    Original_.Visibility = Visibility.Collapsed;
+                    Beauty_.Visibility = Visibility.Collapsed;
+                    Teacher_.Visibility = Visibility.Collapsed;
+                    Student_.Visibility = Visibility.Collapsed;
+                    xuhua.Visibility = Visibility.Collapsed;
+                    break;
+                case 1:
+                    Students_.Visibility = Visibility.Collapsed;
+                    Original_.Visibility = Visibility.Visible;
+                    Beauty_.Visibility = Visibility.Collapsed;
+                    Teacher_.Visibility = Visibility.Collapsed;
+                    Student_.Visibility = Visibility.Collapsed;
+                    xuhua.Visibility = Visibility.Collapsed;
+                    break;
+                case 2:
+                    Students_.Visibility = Visibility.Collapsed;
+                    Original_.Visibility = Visibility.Collapsed;
+                    Beauty_.Visibility = Visibility.Visible;
+                    Teacher_.Visibility = Visibility.Collapsed;
+                    Student_.Visibility = Visibility.Collapsed;
+                    fangdasv.Visibility = Visibility.Collapsed;
+                    fangdaImage.Visibility = Visibility.Collapsed;
+                    xuhua.Visibility = Visibility.Collapsed;
+                    break;
+                case 3:
+                    Students_.Visibility = Visibility.Collapsed;
+                    Original_.Visibility = Visibility.Collapsed;
+                    Beauty_.Visibility = Visibility.Collapsed;
+                    Teacher_.Visibility = Visibility.Collapsed;
+                    Student_.Visibility = Visibility.Visible;
+                    xuhua.Visibility = Visibility.Collapsed;
+                    studentList.IsItemClickEnabled = true;
+                    break;                    
+                case 4:
+                    Students_.Visibility = Visibility.Collapsed;
+                    Original_.Visibility = Visibility.Collapsed;
+                    Beauty_.Visibility = Visibility.Collapsed;
+                    Teacher_.Visibility = Visibility.Visible;
+                    Student_.Visibility = Visibility.Collapsed;
+                    xuhua.Visibility = Visibility.Collapsed;
+                    teacherList.IsItemClickEnabled = true;
+                    break;
             }
         }
-
         private void studentsList_ItemClick(object sender, ItemClickEventArgs e)
         {
             //studentImage.Source = new BitmapImage(new Uri(@"ms-appx:///Assets.123.png"));
-        }
-        private void teacherList_ItemClick(object sender, ItemClickEventArgs e)
-        {
-
-        }
-
-        private void studentList_ItemClick(object sender, ItemClickEventArgs e)
-        {
-
         }
 
         private void zuzhi_listview_ItemClick(object sender, ItemClickEventArgs e)
@@ -533,6 +596,172 @@ namespace ZSCY.Pages
                     zuzhiIntro.Text = zuzhilist[0];
                     break;
             }
+        }
+        private void initializeFrostedGlass(UIElement glassHost)//虚化方法
+        {
+            //初始化模糊效果
+            Visual hostVisual = ElementCompositionPreview.GetElementVisual(glassHost);
+            Compositor compositor = hostVisual.Compositor;
+            var glassEffect = new GaussianBlurEffect
+            {
+                BlurAmount = 15.0f,
+                BorderMode = EffectBorderMode.Hard,
+                Source = new ArithmeticCompositeEffect
+                {
+                    MultiplyAmount = 0,
+                    Source1Amount = 0.5f,
+                    Source2Amount = 0.5f,
+                    Source1 = new CompositionEffectSourceParameter("backdropBrush"),
+                    Source2 = new ColorSourceEffect
+                    {
+                        Color = Color.FromArgb(255, 245, 245, 245)
+                    }
+
+                }
+
+            };
+            var effectFactory = compositor.CreateEffectFactory(glassEffect);
+            var backdropBrush = compositor.CreateBackdropBrush();
+            var effectBrush = effectFactory.CreateBrush();
+            effectBrush.SetSourceParameter("backdropBrush", backdropBrush);
+            var glassVisual = compositor.CreateSpriteVisual();
+            glassVisual.Brush = effectBrush;
+            ElementCompositionPreview.SetElementChildVisual(glassHost, glassVisual);
+            var bindSizeAnimation = compositor.CreateExpressionAnimation("hostVisual.Size");
+            bindSizeAnimation.SetReferenceParameter("hostVisual", hostVisual);
+            glassVisual.StartAnimation("Size", bindSizeAnimation);
+        }
+        private void zuimeilist_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            fangdaImage.Source = new BitmapImage(new Uri((e.ClickedItem as Models.teacher).photo_src));
+        }
+        /// <summary>
+        /// 图片点击放大方法
+        /// 滑动切换图片方法集合 
+        /// 图片是集合 uri用集合索引
+        /// 左滑下一张 右滑上一张
+        /// </summary>
+        bool switcher1 = false, switcher2 = false;
+        double x1 = 0, x2 = 0;
+        private void SwitchImage(double x1, double x2)
+        {
+            if (x2 - x1 > 66)
+            {
+                fangdaImage.Source = new BitmapImage(new Uri(@"ms-appx:///Assets/主页-1-邮子攻略.png"));
+            }
+            else if (x2 - x1 < -66)
+            {
+                fangdaImage.Source = new BitmapImage(new Uri(@"ms-appx:///Assets/主页-2-重邮风采.png"));
+            }
+            else
+            {
+                Debug.WriteLine("滑动距离过短");
+            }
+        }
+        private void fangdaImage_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            switcher1 = true;
+            var x = e.GetCurrentPoint(fangdaImage);
+            Debug.WriteLine("按下 内" + x.Position);
+            x1 = x.Position.X;
+        }
+
+        private void fangdaImage_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (!switcher2)
+            {
+                switcher2 = true;
+                if (switcher1)
+                {
+                    var x = e.GetCurrentPoint(fangdaImage);
+                    Debug.WriteLine("松开 内" + x.Position);
+                    x2 = x.Position.X;
+                    Debug.WriteLine(x2 - x1);
+                    SwitchImage(x1, x2);
+                }
+            }
+            switcher1 = false;
+            switcher2 = false;
+        }
+
+        private void fangdaImage_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            switcher2 = true;
+            var x = e.GetCurrentPoint(fangdaImage);
+            Debug.WriteLine("松开 内" + x.Position);
+            x2 = x.Position.X;
+            if (switcher2 && switcher1)
+            {
+                SwitchImage(x1, x2);
+            }
+            Debug.WriteLine(x2 - x1);
+        }
+        /// <summary>
+        /// 教师点击查看方法
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        string ToS = "";
+        private void teacherList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            initializeFrostedGlass(GlassHost);
+            xuhua.Visibility = Visibility.Visible;
+            //GlassHost.Visibility = Visibility.Visible;
+            teacherList.IsItemClickEnabled = false;
+            //ShowContent.Visibility = Visibility.Visible;
+            var x = e.ClickedItem as Models.teacher;
+            Pic.ImageSource = new BitmapSource(new Uri(x.photo_src));
+            _Name.Text = x.name;
+            Content.Text = x.college;
+            ToS = "T";
+        }
+        /// <summary>
+        /// 学生点击查看方法
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void studentList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            initializeFrostedGlass(GlassHost);
+            xuhua.Visibility = Visibility.Visible;
+            //GlassHost.Visibility = Visibility.Visible;
+            studentList.IsItemClickEnabled = false;
+            //ShowContent.Visibility = Visibility.Visible;
+            var x = e.ClickedItem as Models.xuezi;
+            Pic.ImageSource = new BitmapImage(new Uri(x.photo_src));
+            _Name.Text = x.name;
+            Content.Text = x.introduction;
+            ToS = "S";
+        }
+        private void waibu_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            var o = sender as Models.teacher;
+            var x = e.GetCurrentPoint(waibu);
+            Debug.WriteLine("按下 rect" + x.Position);
+        }
+
+        private void waibu_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            var x = e.GetCurrentPoint(waibu);
+            Debug.WriteLine("松开 rect" + x.Position);
+            if (!((x.Position.X > (waibu.ActualWidth / 2 - 150) && x.Position.X < (waibu.ActualWidth / 2 + 150))
+                && (x.Position.Y > (waibu.ActualHeight / 2 - 250) && x.Position.Y < (waibu.ActualHeight / 2 + 250))))
+            {
+                Debug.WriteLine("点击在外部");
+                xuhua.Visibility = Visibility.Collapsed;
+                if (ToS == "T")
+                {
+                    teacherList.IsItemClickEnabled = true;
+                }
+                else if(ToS=="S")
+                {
+                    studentList.IsItemClickEnabled = true;
+                }else
+                {
+                    Debug.WriteLine("未知错误");
+                }
+            }
+            ToS = "";
         }
     }
 }
