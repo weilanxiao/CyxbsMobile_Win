@@ -115,22 +115,48 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <Grid x:Name="title_grid" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Padding="10,15,10,15" Background="{Binding Source={StaticResource APPTheme},Path=APP_Color_Brush}">
-            <TextBlock Text="2016年新生专题网" FontSize="{Binding Source={StaticResource APPTheme},Path=Header_Size}" Foreground="{Binding Source={StaticResource APPTheme},Path=Foreground_Color_Brush}" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text="2017迎新网" FontSize="{Binding Source={StaticResource APPTheme},Path=Header_Size}" Foreground="{Binding Source={StaticResource APPTheme},Path=Foreground_Color_Brush}" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
         </Grid>
-        <Grid x:Name="content_grid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="0,0,0,15" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+        <Grid x:Name="content_grid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="0,0,0,15" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="White">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Button Grid.Row="0" Height="{Binding Page_Height}" Width="{Binding Page_Width}" Style="{StaticResource FirstButtonStyle}" Click="Button_Click">
-                <Image HorizontalAlignment="Center" Source="ms-appx:///Assets/首页1.png"></Image>
+            <!--<Grid Grid.Row="0">
+                    <Rectangle Fill="Black" Width="{Binding Page_Width}" Height="{Binding Page_Height}" RadiusX="10" RadiusY="10" Margin="2,2,0,0">
+                    </Rectangle>
+                <Button Width="{Binding Page_Width}" Style="{StaticResource FirstButtonStyle}">
+                    <Image HorizontalAlignment="Center" Source="ms-appx:///Assets/主页-1-邮子攻略.png"></Image>
+                </Button>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Button Width="{Binding Page_Width}" Style="{StaticResource FirstButtonStyle}">
+                    <Image HorizontalAlignment="Center" Source="ms-appx:///Assets/主页-2-重邮风采.png"></Image>
+                </Button>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Button Width="{Binding Page_Width}" Style="{StaticResource FirstButtonStyle}">
+                    <Image HorizontalAlignment="Center" Source="ms-appx:///Assets/主页-3-重邮数据.png"></Image>
+                </Button>
+            </Grid>
+            <Grid Grid.Row="3">
+                <Button Width="{Binding Page_Width}" Style="{StaticResource FirstButtonStyle}">
+                    <Image HorizontalAlignment="Center" Source="ms-appx:///Assets/主页-4-军训特辑.png"></Image>
+                </Button>
+            </Grid>-->
+            <Button Grid.Row="0"  Width="{Binding Page_Width}" Style="{StaticResource FirstButtonStyle}" Click="Button_Click" Margin="36,0,36,0">
+                <Image HorizontalAlignment="Center" Source="ms-appx:///assets/首页 按钮1.jpg"></Image>
             </Button>
-            <Button Grid.Row="1" Height="{Binding Page_Height}" Width="{Binding Page_Width}" Style="{StaticResource FirstButtonStyle}" Click="Button_Click">
-                <Image HorizontalAlignment="Center" Source="ms-appx:///Assets/首页2.png"></Image>
+            <Button Grid.Row="1"  Width="{Binding Page_Width}" Style="{StaticResource FirstButtonStyle}" Click="Button_Click" Margin="36,0,36,0">
+                <Image HorizontalAlignment="Center" Source="ms-appx:///assets/首页 按钮1.jpg"></Image>
             </Button>
-            <Button Grid.Row="2" Height="{Binding Page_Height}" Width="{Binding Page_Width}" Style="{StaticResource FirstButtonStyle}" Click="Button_Click">
-                <Image HorizontalAlignment="Center" Source="ms-appx:///Assets/首页3.png"></Image>
+            <Button Grid.Row="2"  Width="{Binding Page_Width}" Style="{StaticResource FirstButtonStyle}" Click="Button_Click" Margin="36,0,36,0">
+                <Image HorizontalAlignment="Center" Source="ms-appx:///Assets/主页-3-重邮数据.png"></Image>
+            </Button>
+            <Button Grid.Row="3"  Width="{Binding Page_Width}" Style="{StaticResource FirstButtonStyle}" Click="Button_Click" Margin="36,0,36,0">
+                <Image HorizontalAlignment="Center" Source="ms-appx:///Assets/主页-4-军训特辑.png"></Image>
             </Button>
         </Grid>
         <Grid x:Name="second_frame_grid" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2">

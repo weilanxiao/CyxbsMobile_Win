@@ -13,7 +13,7 @@ namespace ZSCY_Win10.ViewModels
         {
             get
             {
-                return ((_page_height - 60) / 3.0) - 15;
+                return ((_page_height - 60) / 3.0) - 20;
             }
             set
             {

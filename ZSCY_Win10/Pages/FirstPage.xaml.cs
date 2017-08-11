@@ -24,6 +24,9 @@ namespace ZSCY.Pages
     /// </summary>
     public sealed partial class FirstPage : Page
     {
+        /// <summary>
+        /// 改代码 试试合并问题--weilanxiao
+        /// </summary>
         private int click_index;
 
         private ZSCY_Win10.ViewModels.FirstPageViewModel viewmodel = new ZSCY_Win10.ViewModels.FirstPageViewModel();

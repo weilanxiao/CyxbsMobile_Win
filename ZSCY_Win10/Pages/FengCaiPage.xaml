@@ -9,7 +9,7 @@
     xmlns:converter="using:ZSCY_Win10.Util.Converter"
     mc:Ignorable="d">
 
-    <Page.Resources>
+    <!--<Page.Resources>
         <Style x:Key="FengCaiPivotStyle" TargetType="Pivot">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="IsTabStop" Value="False"/>
@@ -381,9 +381,9 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
-                <!--<Button x:Name="back_but" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource BackButtonStyle}" Click="back_but_Click">
+                --><!--<Button x:Name="back_but" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource BackButtonStyle}" Click="back_but_Click">
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE00E;" />
-                </Button>-->
+                </Button>--><!--
             </Grid>
             <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Text="重邮风采" FontSize="{Binding Source={StaticResource APPTheme},Path=Header_Size}" Foreground="{Binding Source={StaticResource APPTheme},Path=Foreground_Color_Brush}" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
         </Grid>
@@ -646,5 +646,352 @@
                 </TransitionCollection>
             </Popup.ChildTransitions>
         </Popup>
+    </Grid>-->
+
+    <Page.Resources>
+        <Style x:Key="FengCaiListViewStyle" TargetType="ListView">
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="TabNavigation" Value="Once"/>
+            <Setter Property="IsSwipeEnabled" Value="True"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
+            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
+            <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False"/>
+            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled"/>
+            <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True"/>
+            <Setter Property="ScrollViewer.ZoomMode" Value="Disabled"/>
+            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
+            <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True"/>
+            <Setter Property="ItemContainerTransitions">
+                <Setter.Value>
+                    <TransitionCollection>
+                        <AddDeleteThemeTransition/>
+                        <ContentThemeTransition/>
+                        <ReorderThemeTransition/>
+                        <EntranceThemeTransition IsStaggeringEnabled="False"/>
+                    </TransitionCollection>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListView">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                            <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                                <ItemsPresenter FooterTransitions="{TemplateBinding FooterTransitions}" FooterTemplate="{TemplateBinding FooterTemplate}" Footer="{TemplateBinding Footer}" HeaderTemplate="{TemplateBinding HeaderTemplate}" Header="{TemplateBinding Header}" HeaderTransitions="{TemplateBinding HeaderTransitions}"/>
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="FengCaiListViewItemStyle" TargetType="ListViewItem">
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{Binding Source={StaticResource APPTheme},Path=APP_Color_Brush}"/>
+            <Setter Property="TabNavigation" Value="Local"/>
+            <Setter Property="IsHoldingEnabled" Value="True"/>
+            <Setter Property="Padding" Value="0,0,0,0"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <ListViewItemPresenter CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" ContentMargin="{TemplateBinding Padding}" CheckMode="Inline" ContentTransitions="{TemplateBinding ContentTransitions}" CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}" DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}" DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}" DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}" FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}" FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}" PressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}" PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}" PointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}" ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" SelectionCheckMarkVisualEnabled="True" SelectedForeground="Gray" SelectedPointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--容器模板-->
+        <Style x:Key="HorizontalItemContainerStyle" TargetType="ListViewItem">
+            <Setter Property="MinWidth" Value="{StaticResource SplitViewCompactPaneThemeLength}"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <ListViewItemPresenter ContentTransitions="{TemplateBinding ContentTransitions}"
+                        Control.IsTemplateFocusTarget="True"
+                        SelectionCheckMarkVisualEnabled="False"
+                        PointerOverBackground="White"
+                        PointerOverForeground="{ThemeResource ListViewItemForegroundPointerOver}"
+                        SelectedBackground="Transparent"
+                        SelectedForeground="{ThemeResource SystemControlForegroundAccentBrush}"
+                        SelectedPointerOverBackground="White"
+                        PressedBackground="White"
+                        SelectedPressedBackground="White"
+                        DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        ContentMargin="{TemplateBinding Padding}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--横向布局-->
+        <ItemsPanelTemplate x:Key="HorizontalItemsPanelTemplate">
+            <VirtualizingStackPanel Orientation="Horizontal"
+                VerticalAlignment="Top"
+                ScrollViewer.HorizontalScrollMode="Enabled"
+                ScrollViewer.VerticalScrollMode="Disabled"/>
+        </ItemsPanelTemplate>
+
+    </Page.Resources>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Padding="10,15,10,15" Background="{Binding Source={StaticResource APPTheme},Path=APP_Color_Brush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+            </Grid>
+            <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Text="重邮风采" FontSize="{Binding Source={StaticResource APPTheme},Path=Header_Size}" Foreground="{Binding Source={StaticResource APPTheme},Path=Foreground_Color_Brush}" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Pivot Grid.RowSpan="2" x:Name="pivotlist" SelectionChanged="listView_SelectionChanged">
+                <PivotItem >
+                    <!--学生组织-->
+                    <Grid x:Name="Students_" Grid.Row="1" Visibility="Visible">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <ListView x:Name="zuzhi_listview" Grid.Row="0" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollMode="Enabled"
+                          ItemContainerStyle="{StaticResource HorizontalItemContainerStyle}"
+                          ItemsPanel="{StaticResource HorizontalItemsPanelTemplate}" 
+                          ItemsSource="{Binding ZuZhi}" HorizontalAlignment="Center" SelectionChanged="zuzhi_listview_SelectionChanged">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding zuzhi_name}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Margin="20,0,20,0"></TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <Rectangle Grid.Row="0" Fill="Gray" Stretch="UniformToFill" Height="3" VerticalAlignment="Bottom" Opacity="0.6"/>
+                        <ScrollViewer Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Image Grid.Row="0"/>
+                                <TextBlock x:Name="zuzhides" Grid.Row="1" Text="{Binding des}" 
+                                           FontSize="{Binding Source={StaticResource APPTheme},Path=Second_Content_Size}" 
+                                           Foreground="{Binding Source={StaticResource APPTheme},Path=Gary_Color_Brush}" TextWrapping="Wrap"
+                                           LineHeight="30"/>
+                                <ListView x:Name="zuzhiIntro" Grid.Row="2" SelectionMode="None" ItemsSource="{x:Bind zuzhi_list}">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <TextBlock x:Name="zuzhi_Name" Text="{Binding name}" 
+                                                   FontSize="18" Foreground="{Binding Source={StaticResource APPTheme},Path=Content_Header_Color_Brush}"
+                                                   Margin="0,20,0,10"/>
+                                                <TextBlock x:Name="zuzhi_Intro" Text="{Binding intro}" 
+                                                   FontSize="{Binding Source={StaticResource APPTheme},Path=Second_Content_Size}" 
+                                                   Foreground="{Binding Source={StaticResource APPTheme},Path=Gary_Color_Brush}" TextWrapping="Wrap"
+                                                   Margin="0" LineHeight="30"/>
+                                                <Rectangle Fill="Gray" Height="1" Stretch="UniformToFill"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Grid>
+                        </ScrollViewer>
+                    </Grid>
+                </PivotItem>
+                <PivotItem>
+                    <!--原创重邮-->
+                    <Grid x:Name="Original_" Grid.Row="1" Visibility="Visible" Margin="5,5,5,2">
+                        <ListView x:Name="yc_listview" ScrollViewer.VerticalScrollBarVisibility="Hidden" IsItemClickEnabled="True" ItemClick="yc_listview_ItemClick"
+                          ItemsSource="{Binding YuanChuang}" HorizontalAlignment="Center">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Height="150" Margin="0,0,0,2">
+                                        <Image Source="{Binding photo_url}" Width="500" />
+                                        <Rectangle Fill="Black" Opacity="0.5" Height="40" Stretch="Fill" VerticalAlignment="Top"/>
+                                        <TextBlock Text="{Binding name}"  VerticalAlignment="Top" Margin="2,5,0,0"/>
+                                        <TextBlock Text="{Binding time}"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,5"/>
+                                        <Rectangle Grid.ColumnSpan="2" Fill="Red" Height="2" Stretch="UniformToFill" VerticalAlignment="Bottom"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <WebView x:Name="PlayYC" Visibility="Collapsed"/>
+                    </Grid>
+                </PivotItem>
+                <PivotItem>
+                    <!--美在重邮-->
+                    <Grid x:Name="Beauty_" Grid.Row="1" Visibility="Visible" Margin="5,5,5,2">
+                        <ListView x:Name="zuimeilist" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                          IsItemClickEnabled="True" ItemClick="zuimeilist_ItemClick" ItemsSource="{Binding FengCaiViewModel}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid BorderBrush="Green">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Rectangle Width="678" Height="358">
+                                            <Rectangle.Fill>
+                                                <ImageBrush ImageSource="{Binding ZuiMei_Photos}"/>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                        <TextBlock Text="{Binding ZuiMei}" 
+                                                   FontSize="{Binding Source={StaticResource APPTheme},Path=Second_Content_Size}" 
+                                                   Foreground="{Binding Source={StaticResource APPTheme},Path=Gary_Color_Brush}"  TextWrapping="Wrap"/>
+                                        <Rectangle Grid.ColumnSpan="2" Fill="Gray" Height="2" Stretch="UniformToFill" VerticalAlignment="Bottom"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <ScrollViewer x:Name="fangdasv" HorizontalScrollMode="Disabled" Visibility="Collapsed">
+                            <Image x:Name="fangdaImage" Width="600"
+                       PointerPressed="fangdaImage_PointerPressed" 
+                       PointerExited="fangdaImage_PointerExited" 
+                       PointerReleased="fangdaImage_PointerReleased"
+                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                       Stretch="UniformToFill" />
+                        </ScrollViewer>
+                    </Grid>
+                </PivotItem>
+                <PivotItem>
+                    <!--优秀学生-->
+                    <Grid x:Name="Student_" Grid.Row="1" Visibility="Visible" Margin="5,5,5,2">
+                        <ListView x:Name="studentList" ScrollViewer.VerticalScrollBarVisibility="Hidden"          
+                    ItemsSource="{Binding XueZi}"
+                    IsItemClickEnabled="True" ItemClick="studentList_ItemClick">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Width="120" Height="120" Stroke="Red">
+                                            <Ellipse.Fill>
+                                                <ImageBrush ImageSource="{Binding photo_src}"></ImageBrush>
+                                            </Ellipse.Fill>
+                                        </Ellipse>
+                                        <Grid Grid.Column="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Text="{Binding name}" FontSize="18" Foreground="{Binding Source={StaticResource APPTheme},Path=Content_Header_Color_Brush}" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Row="1" Text="{Binding description}" 
+                                                   FontSize="{Binding Source={StaticResource APPTheme},Path=Second_Content_Size}" 
+                                                   Foreground="{Binding Source={StaticResource APPTheme},Path=Gary_Color_Brush}" TextWrapping="Wrap"/>
+                                        </Grid>
+                                        <Rectangle Grid.ColumnSpan="2" Fill="Gray" Height="2" Stretch="UniformToFill" VerticalAlignment="Bottom"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </PivotItem>
+                <PivotItem >
+                    <!--优秀教师-->
+                    <Grid x:Name="Teacher_" Grid.Row="1" Visibility="Visible" Margin="5,5,5,2">
+                        <ListView x:Name="teacherList" ScrollViewer.VerticalScrollBarVisibility="Hidden"         
+                    ItemsSource="{Binding Teacher}"
+                    IsItemClickEnabled="True" ItemClick="teacherList_ItemClick">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Width="120" Height="120" Stroke="Red">
+                                            <Ellipse.Fill>
+                                                <ImageBrush ImageSource="{Binding photo_thumbnail_src}" ></ImageBrush>
+                                            </Ellipse.Fill>
+                                        </Ellipse>
+                                        <Grid Grid.Column="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Grid.Row="0" Text="{Binding name}" FontSize="18" Foreground="{Binding Source={StaticResource APPTheme},Path=Content_Header_Color_Brush}"
+                                                       VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Row="1" Text="{Binding college}" 
+                                                   FontSize="{Binding Source={StaticResource APPTheme},Path=Second_Content_Size}" 
+                                                   Foreground="{Binding Source={StaticResource APPTheme},Path=Gary_Color_Brush}" TextWrapping="Wrap"/>
+                                        </Grid>
+                                        <Rectangle Grid.ColumnSpan="2" Fill="Gray" Height="2" Stretch="UniformToFill" VerticalAlignment="Bottom"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </PivotItem>
+            </Pivot>
+            <Grid Grid.Row="0" x:Name="listViewer" Height="50" Visibility="Visible">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <ListView x:Name="listView" Grid.Row="0" ScrollViewer.HorizontalScrollMode="Enabled" HorizontalAlignment="Center"
+                          Style="{StaticResource FengCaiListViewStyle}" 
+                          ItemContainerStyle="{StaticResource HorizontalItemContainerStyle}"
+                          ItemsSource="{Binding Header}" SelectionChanged="listView_SelectionChanged" 
+                          ItemsPanel="{StaticResource HorizontalItemsPanelTemplate}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Height="42" Width="100">
+                                <TextBlock x:Name="namelist" Text="{Binding header}" FontSize="{Binding Source={StaticResource APPTheme},Path=Header_Size}" Foreground="{Binding Source={StaticResource APPTheme},Path=Content_Header_Color_Brush}" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                <Rectangle x:Name="rect" Visibility="Collapsed" Fill="{Binding Source={StaticResource APPTheme},Path=APP_Color_Brush}" Height="3" Stretch="Fill" VerticalAlignment="Bottom"></Rectangle>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Rectangle x:Name="yijidibu" Grid.Row="1" Fill="Gray" Stretch="UniformToFill" Height="3" Opacity="0.6"/>
+            </Grid>
+            <Grid x:Name="xuhua" Grid.Row="1" Visibility="Collapsed" Margin="5,0,5,2">
+                    <Grid x:Name="GlassHost" Width="1000" Height="auto" HorizontalAlignment="Center"  Opacity="1"></Grid>
+                <Rectangle x:Name="waibu" Fill="Blue" Width="1000" HorizontalAlignment="Center" Stretch="Fill"
+                           PointerPressed="waibu_PointerPressed" Opacity="0"
+                           PointerReleased="waibu_PointerReleased" RadiusX="10"/>
+                <Rectangle Fill="White" Stretch="Fill" Width="250" Height="350" RadiusX="10" RadiusY="10"></Rectangle>
+                <ScrollViewer x:Name="shoucontentsc" VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Enabled" HorizontalScrollBarVisibility="Disabled" 
+                              Width="250" Height="350" 
+                              BorderBrush="Red" BorderThickness="0">
+                     <Grid x:Name="ShowContent" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                          BorderThickness="2" Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Ellipse Grid.Row="1" Width="210" Height="210" HorizontalAlignment="Center">
+                                <Ellipse.Fill>
+                                    <ImageBrush x:Name="Pic"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <TextBlock x:Name="_Name" Grid.Row="2" FontSize="18" Foreground="{Binding Source={StaticResource APPTheme},Path=Content_Header_Color_Brush}" HorizontalAlignment="Center"/>
+                        <TextBlock x:Name="Content" Grid.Row="3" FontSize="{Binding Source={StaticResource APPTheme},Path=Second_Content_Size}" Foreground="{Binding Source={StaticResource APPTheme},Path=Gary_Color_Brush}" TextWrapping="Wrap"/>
+                    </Grid>
+                 </ScrollViewer>
+            </Grid>
+        </Grid>
     </Grid>
 </Page>
