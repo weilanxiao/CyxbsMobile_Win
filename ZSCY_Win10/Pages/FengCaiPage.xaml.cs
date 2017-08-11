@@ -32,6 +32,7 @@ using Windows.UI.Composition;
 using Windows.UI.Xaml.Hosting;
 using Microsoft.Graphics.Canvas.Effects;
 using Windows.UI;
+using ZSCY_Win10.ViewModels;
 
 // “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=234238 上有介绍
 
@@ -47,8 +48,7 @@ namespace ZSCY.Pages
         private double[] pivotitem1_ver_offest;
         private ZSCY_Win10.ViewModels.FengCaiViewModel viewmodel;
         public static FengCaiPage fengcaipage;
-
-        List<string> zuzhilist = new List<string>();
+        ObservableCollection<ZuZhi> zuzhi_list = new ObservableCollection<ZuZhi>();
 
         public FengCaiPage()
         {
@@ -60,6 +60,7 @@ namespace ZSCY.Pages
             this.DataContext = viewmodel;
             fengcaipage = this;
             this.SizeChanged += FengCaiPage_SizeChanged;
+            //listView.SelectedIndex = 0;
 
             //手机物理返回键订阅事件
             if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
@@ -84,13 +85,15 @@ namespace ZSCY.Pages
             if (e.NavigationMode == NavigationMode.New)
             {
                 await First_Step();
-                pivotitem1_ver_offest = new double[viewmodel.ZuZhi.Count];
-                Dispatcher?.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    PivotItem1_Add_Content(1);
-                });
-                await Task.Delay(100);
-                //zuzhi_listview.SelectedIndex = pivot.SelectedIndex = 0;
+                Debug.WriteLine("完成读取");
+                //pivotitem1_ver_offest = new double[viewmodel.ZuZhi.Count];
+                //Dispatcher?.RunAsync(CoreDispatcherPriority.Normal, () =>
+                //{
+                //    PivotItem1_Add_Content(1);
+                //});
+                //await Task.Delay(100);
+                zuzhi_listview.SelectedIndex = pivotlist.SelectedIndex = 0;
+                listView.SelectedIndex = 0;
             }
         }
 
@@ -141,23 +144,43 @@ namespace ZSCY.Pages
             json = await FileIO.ReadTextAsync(file);
             json_object = (JObject)JsonConvert.DeserializeObject(json);
             JArray zuzhi_intros = (JArray)json_object["zuzhi_intro"];
-            ObservableCollection<Models.zuzhi_intro> intro_lists = new ObservableCollection<Models.zuzhi_intro>();
-            StringBuilder sb = new StringBuilder("");
+            ObservableCollection<Models.zuzhi_intro> intro_lists = new ObservableCollection<Models.zuzhi_intro>();                      
+            string s = "";
             for (int i = 0; i < zuzhi_intros.Count; i++)
             {
+                List<ZuZhiBuMen> bumenlist = new List<ZuZhiBuMen>();
                 Models.zuzhi_intro item = new Models.zuzhi_intro();
+                ZuZhi zuzhiitem = new ZuZhi();
+                zuzhiitem.des = "";
                 item.zuzhi = new ObservableCollection<string>();
                 JArray zuzhi_item = (JArray)zuzhi_intros[i]["zuzhi"];
-                for (int j = 0; j < zuzhi_item.Count; j++)
+                for (int j = 0; j < zuzhi_item.Count; j+=2)
                 {
-                    //item.zuzhi.Add(zuzhi_item[j]["duanluo"].ToString());
-                    sb.Append(zuzhi_item[j]["duanluo"].ToString());
-                    sb.Append("\n");
+                    ZuZhiBuMen _bumen = new ZuZhiBuMen();
+                    item.zuzhi.Add(zuzhi_item[j]["duanluo"].ToString());
+                    s = zuzhi_item[j]["duanluo"].ToString();
+                    if (j == 0 && !(s.Contains('【')))
+                    {
+                        zuzhiitem.des = s;
+                    }
+                    else if (s.Contains('【'))
+                    {
+                        s = s.Replace('【', ' ').Replace('】', ' ');
+                        _bumen.name = s;
+                        _bumen.intro = zuzhi_item[j + 1]["duanluo"].ToString();
+                        bumenlist.Add(_bumen);
+                    }
+                    else
+                    {
+                        _bumen.intro = s;
+                        _bumen.name = zuzhi_item[j - 1]["duanluo"].ToString().Replace('【', ' ').Replace('】', ' ');
+                        bumenlist.Add(_bumen);
+                    }                    
                 }
-                //intro_lists.Add(item);
-                zuzhilist.Add(sb.ToString());
-                sb.Clear();
+                zuzhiitem.bumenlist = bumenlist;
+                zuzhi_list.Add(zuzhiitem);
             }
+            zuzhiIntro.ItemsSource = zuzhi_list;
             //viewmodel.Zuzhi_Intro = intro_lists;
             #endregion
 
@@ -339,38 +362,18 @@ namespace ZSCY.Pages
             //{
             //    return;
             //}
-        }
-
-        private void zuzhi_listview_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //pivotitem1_ver_offest[zuzhi_listview_index] = zuzhi_sc.VerticalOffset;
-            //PivotItem1_Add_Content(2);
-            //if (pivotitem1_ver_offest[zuzhi_listview.SelectedIndex] != 0.0)
-            //{
-            //    zuzhi_sc.ChangeView(null, pivotitem1_ver_offest[zuzhi_listview.SelectedIndex], null, true);
-            //}
-            //else
-            //{
-            //    zuzhi_sc.ChangeView(null, 0.0, null, true);
-            //}
-            //zuzhi_listview_index = zuzhi_listview.SelectedIndex;
-        }
-
-        private async void yc_listview_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            await Launcher.LaunchUriAsync(new Uri((e.ClickedItem as Models.yuanchuang).video_url));
-        }
+        }        
 
         private void XueZi_Rectangle_Loaded(object sender, RoutedEventArgs e)
         {
-            Binding binding1 = new Binding();
-            binding1.Source = viewmodel;
-            binding1.Path = new PropertyPath("XueZi_Height");
-            (sender as Rectangle).SetBinding(Rectangle.HeightProperty, binding1);
-            Binding binding2 = new Binding();
-            binding2.Source = viewmodel;
-            binding2.Path = new PropertyPath("XueZi_Width");
-            (sender as Rectangle).SetBinding(Rectangle.WidthProperty, binding2);
+            //Binding binding1 = new Binding();
+            //binding1.Source = viewmodel;
+            //binding1.Path = new PropertyPath("XueZi_Height");
+            //(sender as Rectangle).SetBinding(Rectangle.HeightProperty, binding1);
+            //Binding binding2 = new Binding();
+            //binding2.Source = viewmodel;
+            //binding2.Path = new PropertyPath("XueZi_Width");
+            //(sender as Rectangle).SetBinding(Rectangle.WidthProperty, binding2);
         }
 
         private void GridView_ItemClick(object sender, ItemClickEventArgs e)
@@ -452,68 +455,9 @@ namespace ZSCY.Pages
             }
         }
 
-        private void listView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            Debug.WriteLine("你点击了！");
-            var x = e.ClickedItem as Models.fengcaiheaders;
-            if (x.header == "学生组织")
-            {
-                ////StackPanel sp = (StackPanel)VisualTreeHelper.GetChild(navigation.LoadContent(), 0);
-                //DataTemplate dt = (DataTemplate)VisualTreeHelper.GetChild(, 0);
-                //StackPanel sp = (StackPanel)VisualTreeHelper.GetChild(dt, 0);
-                //Line li = (Line)VisualTreeHelper.GetChild(sp, 1);
-                //li.Visibility = Visibility.Visible;
-                Students_.Visibility = Visibility.Visible;
-                Original_.Visibility = Visibility.Collapsed;
-                Beauty_.Visibility = Visibility.Collapsed;
-                Teacher_.Visibility = Visibility.Collapsed;
-                Student_.Visibility = Visibility.Collapsed;
-                xuhua.Visibility = Visibility.Collapsed;
 
-            }
-            else if (x.header == "原创重邮")
-            {
-                Students_.Visibility = Visibility.Collapsed;
-                Original_.Visibility = Visibility.Visible;
-                Beauty_.Visibility = Visibility.Collapsed;
-                Teacher_.Visibility = Visibility.Collapsed;
-                Student_.Visibility = Visibility.Collapsed;
-                xuhua.Visibility = Visibility.Collapsed;
-            }
-            else if (x.header == "美在重邮")
-            {
-                Students_.Visibility = Visibility.Collapsed;
-                Original_.Visibility = Visibility.Collapsed;
-                Beauty_.Visibility = Visibility.Visible;
-                Teacher_.Visibility = Visibility.Collapsed;
-                Student_.Visibility = Visibility.Collapsed;
-                xuhua.Visibility = Visibility.Collapsed;
-            }
-            else if (x.header == "教师代表")
-            {
-                Students_.Visibility = Visibility.Collapsed;
-                Original_.Visibility = Visibility.Collapsed;
-                Beauty_.Visibility = Visibility.Collapsed;
-                Teacher_.Visibility = Visibility.Visible;
-                Student_.Visibility = Visibility.Collapsed;
-                xuhua.Visibility = Visibility.Collapsed;
-                teacherList.IsItemClickEnabled = true;
-            }
-            else if (x.header == "学生代表")
-            {
-                Students_.Visibility = Visibility.Collapsed;
-                Original_.Visibility = Visibility.Collapsed;
-                Beauty_.Visibility = Visibility.Collapsed;
-                Teacher_.Visibility = Visibility.Collapsed;
-                Student_.Visibility = Visibility.Visible;
-                xuhua.Visibility = Visibility.Collapsed;
-                studentList.IsItemClickEnabled = true;
-            }
-        }       
 
-        Rectangle rect_old;
-        Rectangle rect_new;
-        private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)//一级导航栏选中事件
         {
             int index = 0;
             for (int i = 0; i < listView.Items.Count; i++)
@@ -521,14 +465,12 @@ namespace ZSCY.Pages
                 if (listView.ContainerFromIndex(i) != null)
                 {
                     var grid = (listView.ContainerFromIndex(i) as ListViewItem).ContentTemplateRoot as Grid;
-                    var line = grid.FindName("line") as Line;                    
+                    var line = grid.FindName("rect") as Rectangle;                    
 
                     if (listView.SelectedIndex == i) // 当前选中项
                     {
                         index = i;
-                        //(grid.FindName("namelist") as TextBlock).Foreground= App.APPTheme.APP_Color_Brush;
-                        //rect_old = rect_new;
-                        //rect_new = rect;                       
+                        pivotlist.SelectedIndex = index;
                     }
                     line.Visibility = listView.SelectedIndex == i ? Visibility.Visible : Visibility.Collapsed;
                 }
@@ -537,103 +479,128 @@ namespace ZSCY.Pages
             switch (index)
             {
                 case 0:
-                    Students_.Visibility = Visibility.Visible;
-                    Original_.Visibility = Visibility.Collapsed;
-                    Beauty_.Visibility = Visibility.Collapsed;
-                    Teacher_.Visibility = Visibility.Collapsed;
-                    Student_.Visibility = Visibility.Collapsed;
+                    yijidibu.Visibility = Visibility.Collapsed;
                     xuhua.Visibility = Visibility.Collapsed;
+                    fangdasv.Visibility = Visibility.Collapsed;
+                    fangdaImage.Visibility = Visibility.Collapsed;
                     break;
                 case 1:
-                    Students_.Visibility = Visibility.Collapsed;
-                    Original_.Visibility = Visibility.Visible;
-                    Beauty_.Visibility = Visibility.Collapsed;
-                    Teacher_.Visibility = Visibility.Collapsed;
-                    Student_.Visibility = Visibility.Collapsed;
+                    yijidibu.Visibility = Visibility.Visible;
                     xuhua.Visibility = Visibility.Collapsed;
+                    fangdasv.Visibility = Visibility.Collapsed;
+                    fangdaImage.Visibility = Visibility.Collapsed;
                     break;
                 case 2:
-                    Students_.Visibility = Visibility.Collapsed;
-                    Original_.Visibility = Visibility.Collapsed;
-                    Beauty_.Visibility = Visibility.Visible;
-                    Teacher_.Visibility = Visibility.Collapsed;
-                    Student_.Visibility = Visibility.Collapsed;
+                    yijidibu.Visibility = Visibility.Visible;
                     fangdasv.Visibility = Visibility.Collapsed;
                     fangdaImage.Visibility = Visibility.Collapsed;
                     xuhua.Visibility = Visibility.Collapsed;
                     break;
                 case 3:
-                    Students_.Visibility = Visibility.Collapsed;
-                    Original_.Visibility = Visibility.Collapsed;
-                    Beauty_.Visibility = Visibility.Collapsed;
-                    Teacher_.Visibility = Visibility.Collapsed;
-                    Student_.Visibility = Visibility.Visible;
+                    yijidibu.Visibility = Visibility.Visible;
                     xuhua.Visibility = Visibility.Collapsed;
+                    fangdasv.Visibility = Visibility.Collapsed;
+                    fangdaImage.Visibility = Visibility.Collapsed;
                     studentList.IsItemClickEnabled = true;
-                    break;                    
+                    break;
                 case 4:
-                    Students_.Visibility = Visibility.Collapsed;
-                    Original_.Visibility = Visibility.Collapsed;
-                    Beauty_.Visibility = Visibility.Collapsed;
-                    Teacher_.Visibility = Visibility.Visible;
-                    Student_.Visibility = Visibility.Collapsed;
+                    yijidibu.Visibility = Visibility.Visible;
                     xuhua.Visibility = Visibility.Collapsed;
+                    fangdasv.Visibility = Visibility.Collapsed;
+                    fangdaImage.Visibility = Visibility.Collapsed;
                     teacherList.IsItemClickEnabled = true;
                     break;
+
             }
-        }
-        private void studentsList_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            //studentImage.Source = new BitmapImage(new Uri(@"ms-appx:///Assets.123.png"));
+            //switch (index)
+            //{
+            //    case 0:
+            //        Students_.Visibility = Visibility.Visible;
+            //        Original_.Visibility = Visibility.Collapsed;
+            //        Beauty_.Visibility = Visibility.Collapsed;
+            //        Teacher_.Visibility = Visibility.Collapsed;
+            //        Student_.Visibility = Visibility.Collapsed;
+            //        xuhua.Visibility = Visibility.Collapsed;
+            //        break;
+            //    case 1:
+            //        Students_.Visibility = Visibility.Collapsed;
+            //        Original_.Visibility = Visibility.Visible;
+            //        Beauty_.Visibility = Visibility.Collapsed;
+            //        Teacher_.Visibility = Visibility.Collapsed;
+            //        Student_.Visibility = Visibility.Collapsed;
+            //        xuhua.Visibility = Visibility.Collapsed;
+            //        break;
+            //    case 2:
+            //        Students_.Visibility = Visibility.Collapsed;
+            //        Original_.Visibility = Visibility.Collapsed;
+            //        Beauty_.Visibility = Visibility.Visible;
+            //        Teacher_.Visibility = Visibility.Collapsed;
+            //        Student_.Visibility = Visibility.Collapsed;
+            //        fangdasv.Visibility = Visibility.Collapsed;
+            //        fangdaImage.Visibility = Visibility.Collapsed;
+            //        xuhua.Visibility = Visibility.Collapsed;
+            //        break;
+            //    case 3:
+            //        Students_.Visibility = Visibility.Collapsed;
+            //        Original_.Visibility = Visibility.Collapsed;
+            //        Beauty_.Visibility = Visibility.Collapsed;
+            //        Teacher_.Visibility = Visibility.Collapsed;
+            //        Student_.Visibility = Visibility.Visible;
+            //        xuhua.Visibility = Visibility.Collapsed;
+            //        studentList.IsItemClickEnabled = true;
+            //        break;                    
+            //    case 4:
+            //        Students_.Visibility = Visibility.Collapsed;
+            //        Original_.Visibility = Visibility.Collapsed;
+            //        Beauty_.Visibility = Visibility.Collapsed;
+            //        Teacher_.Visibility = Visibility.Visible;
+            //        Student_.Visibility = Visibility.Collapsed;
+            //        xuhua.Visibility = Visibility.Collapsed;
+            //        teacherList.IsItemClickEnabled = true;
+            //        break;
+            //}
         }
 
-        private void zuzhi_listview_ItemClick(object sender, ItemClickEventArgs e)
+        private void zuzhi_listview_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int index = zuzhi_listview.SelectedIndex;
-            switch (index)
+            int i = zuzhi_listview.SelectedIndex;
+            if (i < 0 || i == 0)
             {
-                case 0:
-                    zuzhiIntro.Text = zuzhilist[0];
-                    break;
+                i = 0;
+                zuzhides.Visibility = Visibility.Collapsed;
             }
-        }
-        private void initializeFrostedGlass(UIElement glassHost)//虚化方法
-        {
-            //初始化模糊效果
-            Visual hostVisual = ElementCompositionPreview.GetElementVisual(glassHost);
-            Compositor compositor = hostVisual.Compositor;
-            var glassEffect = new GaussianBlurEffect
+            else
             {
-                BlurAmount = 15.0f,
-                BorderMode = EffectBorderMode.Hard,
-                Source = new ArithmeticCompositeEffect
-                {
-                    MultiplyAmount = 0,
-                    Source1Amount = 0.5f,
-                    Source2Amount = 0.5f,
-                    Source1 = new CompositionEffectSourceParameter("backdropBrush"),
-                    Source2 = new ColorSourceEffect
-                    {
-                        Color = Color.FromArgb(255, 245, 245, 245)
-                    }
-
-                }
-
-            };
-            var effectFactory = compositor.CreateEffectFactory(glassEffect);
-            var backdropBrush = compositor.CreateBackdropBrush();
-            var effectBrush = effectFactory.CreateBrush();
-            effectBrush.SetSourceParameter("backdropBrush", backdropBrush);
-            var glassVisual = compositor.CreateSpriteVisual();
-            glassVisual.Brush = effectBrush;
-            ElementCompositionPreview.SetElementChildVisual(glassHost, glassVisual);
-            var bindSizeAnimation = compositor.CreateExpressionAnimation("hostVisual.Size");
-            bindSizeAnimation.SetReferenceParameter("hostVisual", hostVisual);
-            glassVisual.StartAnimation("Size", bindSizeAnimation);
+                zuzhides.Visibility = Visibility.Visible;
+            }
+            zuzhides.Text = zuzhi_list[i].des;
+            zuzhiIntro.ItemsSource = zuzhi_list[i].bumenlist;
+            //pivotitem1_ver_offest[zuzhi_listview_index] = zuzhi_sc.VerticalOffset;
+            //PivotItem1_Add_Content(2);
+            //if (pivotitem1_ver_offest[zuzhi_listview.SelectedIndex] != 0.0)
+            //{
+            //    zuzhi_sc.ChangeView(null, pivotitem1_ver_offest[zuzhi_listview.SelectedIndex], null, true);
+            //}
+            //else
+            //{
+            //    zuzhi_sc.ChangeView(null, 0.0, null, true);
+            //}
+            //zuzhi_listview_index = zuzhi_listview.SelectedIndex;
+        }
+        private async void yc_listview_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            PlayYC.Visibility = Visibility.Visible;
+            PlayYC.Source = new Uri((e.ClickedItem as Models.yuanchuang).video_url);
+            //await Launcher.LaunchUriAsync(new Uri((e.ClickedItem as Models.yuanchuang).video_url));
         }
         private void zuimeilist_ItemClick(object sender, ItemClickEventArgs e)
         {
-            fangdaImage.Source = new BitmapImage(new Uri((e.ClickedItem as Models.teacher).photo_src));
+            //最美重邮点击放大
+            //uri无法写且最美重邮页面无法显示
+            //没有model类
+            var i = zuimeilist.SelectedIndex;
+            string s = viewmodel.ZuiMei_Photos[i];
+            fangdaImage.Source = new BitmapImage(new Uri(s));
         }
         /// <summary>
         /// 图片点击放大方法
@@ -645,13 +612,15 @@ namespace ZSCY.Pages
         double x1 = 0, x2 = 0;
         private void SwitchImage(double x1, double x2)
         {
+            string s= viewmodel.ZuiMei_Photos[0];
+            //缺少图片uri集合
             if (x2 - x1 > 66)
             {
-                fangdaImage.Source = new BitmapImage(new Uri(@"ms-appx:///Assets/主页-1-邮子攻略.png"));
+                fangdaImage.Source = new BitmapImage(new Uri(s));
             }
             else if (x2 - x1 < -66)
             {
-                fangdaImage.Source = new BitmapImage(new Uri(@"ms-appx:///Assets/主页-2-重邮风采.png"));
+                fangdaImage.Source = new BitmapImage(new Uri(s));
             }
             else
             {
@@ -696,17 +665,51 @@ namespace ZSCY.Pages
             }
             Debug.WriteLine(x2 - x1);
         }
+        private void initializeFrostedGlass(UIElement glassHost)//虚化方法
+        {
+            //初始化模糊效果
+            Visual hostVisual = ElementCompositionPreview.GetElementVisual(glassHost);
+            Compositor compositor = hostVisual.Compositor;
+            var glassEffect = new GaussianBlurEffect
+            {
+                BlurAmount = 15.0f,
+                BorderMode = EffectBorderMode.Hard,
+                Source = new ArithmeticCompositeEffect
+                {
+                    MultiplyAmount = 0,
+                    Source1Amount = 0.5f,
+                    Source2Amount = 0.5f,
+                    Source1 = new CompositionEffectSourceParameter("backdropBrush"),
+                    Source2 = new ColorSourceEffect
+                    {
+                        Color = Color.FromArgb(255, 245, 245, 245)
+                    }
+
+                }
+
+            };
+            var effectFactory = compositor.CreateEffectFactory(glassEffect);
+            var backdropBrush = compositor.CreateBackdropBrush();
+            var effectBrush = effectFactory.CreateBrush();
+            effectBrush.SetSourceParameter("backdropBrush", backdropBrush);
+            var glassVisual = compositor.CreateSpriteVisual();
+            glassVisual.Brush = effectBrush;
+            ElementCompositionPreview.SetElementChildVisual(glassHost, glassVisual);
+            var bindSizeAnimation = compositor.CreateExpressionAnimation("hostVisual.Size");
+            bindSizeAnimation.SetReferenceParameter("hostVisual", hostVisual);
+            glassVisual.StartAnimation("Size", bindSizeAnimation);
+        }
+        string ToS = "";
         /// <summary>
         /// 教师点击查看方法
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        string ToS = "";
         private void teacherList_ItemClick(object sender, ItemClickEventArgs e)
         {
             initializeFrostedGlass(GlassHost);
             xuhua.Visibility = Visibility.Visible;
-            //GlassHost.Visibility = Visibility.Visible;
+            GlassHost.Visibility = Visibility.Visible;
             teacherList.IsItemClickEnabled = false;
             //ShowContent.Visibility = Visibility.Visible;
             var x = e.ClickedItem as Models.teacher;
@@ -724,7 +727,7 @@ namespace ZSCY.Pages
         {
             initializeFrostedGlass(GlassHost);
             xuhua.Visibility = Visibility.Visible;
-            //GlassHost.Visibility = Visibility.Visible;
+            GlassHost.Visibility = Visibility.Visible;
             studentList.IsItemClickEnabled = false;
             //ShowContent.Visibility = Visibility.Visible;
             var x = e.ClickedItem as Models.xuezi;
@@ -733,6 +736,7 @@ namespace ZSCY.Pages
             Content.Text = x.introduction;
             ToS = "S";
         }
+
         private void waibu_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             var o = sender as Models.teacher;
@@ -744,11 +748,14 @@ namespace ZSCY.Pages
         {
             var x = e.GetCurrentPoint(waibu);
             Debug.WriteLine("松开 rect" + x.Position);
-            if (!((x.Position.X > (waibu.ActualWidth / 2 - 150) && x.Position.X < (waibu.ActualWidth / 2 + 150))
-                && (x.Position.Y > (waibu.ActualHeight / 2 - 250) && x.Position.Y < (waibu.ActualHeight / 2 + 250))))
+            double w = shoucontentsc.ActualWidth / 2;
+            double h = shoucontentsc.ActualHeight / 2;
+            if (!((x.Position.X > (waibu.ActualWidth / 2 - w) && x.Position.X < (waibu.ActualWidth / 2 + w))
+                && (x.Position.Y > (waibu.ActualHeight / 2 - h) && x.Position.Y < (waibu.ActualHeight / 2 + h))))
             {
                 Debug.WriteLine("点击在外部");
                 xuhua.Visibility = Visibility.Collapsed;
+                GlassHost.Visibility = Visibility.Collapsed;
                 if (ToS == "T")
                 {
                     teacherList.IsItemClickEnabled = true;
@@ -762,6 +769,20 @@ namespace ZSCY.Pages
                 }
             }
             ToS = "";
+        }
+
+        /// <summary>
+        /// 组织列表model
+        /// </summary>
+        public class ZuZhi
+        {
+            public string des { get; set; }
+            public List<ZuZhiBuMen> bumenlist { get; set; }
+        }
+        public class ZuZhiBuMen
+        {
+            public string name { get; set; }
+            public string intro { get; set; }
         }
     }
 }
